@@ -19,10 +19,7 @@ pip install mmaction2  # tested mmaction2 v0.24.0
 
 
 ### Data Preparation
-In this work we have tested the proposed model on two datasets : the [Briareo](https://aimagelab.ing.unimore.it/imagelab/page.asp?IdPage=31) and [Multi-Modal Hand Gesture Dataset](http://gti.ssr.upm.es/data/MultiModalHandGesture_dataset) . The hand keypoints are obtained by [Mediapipe](https://developers.google.com/mediapipe/solutions), we have included code to generate these hand keypoints. 
-* You can use this script [**img_to_coord.py**](https://github.com/Enminxo/handgesture_2/blob/c0dd52be999e3dc7525cae5a77620fa0e59de40b/images_to_coordinates/img_to_coord.py) to generate hand keypoints from the images or videos. 
-* Save the coordinates into .pkl file using [**my_gen_ntu_rgbd.py**](https://github.com/Enminxo/handgesture_2/blob/2831f468f56c986c19f3f183a93a1e1942d685a5/tools/data/my_gen__ntu_rgbd.py)
-
+In this work we have tested the proposed model on two datasets : the [Briareo](https://aimagelab.ing.unimore.it/imagelab/page.asp?IdPage=31) and [Multi-Modal Hand Gesture Dataset](http://gti.ssr.upm.es/data/MultiModalHandGesture_dataset) . The hand keypoints are obtained by [Mediapipe](https://developers.google.com/mediapipe/solutions), we have also included code to generate these hand keypoints ( see data_preprocessing ). 
 
 
 ### Train
