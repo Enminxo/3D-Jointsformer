@@ -4,7 +4,7 @@ import argparse
 from mmcv import Config
 
 from mmaction.models import build_recognizer
-import skelact  # noqa
+import source  # noqa
 
 try:
     from mmcv.cnn import get_model_complexity_info

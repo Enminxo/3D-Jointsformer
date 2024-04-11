@@ -1,12 +1,12 @@
 # dataset settings
 dataset_type = 'PoseDataset'
-# ann_file_train = 'data/briareo/RGB/train.pkl'
-# ann_file_val = 'data/briareo/RGB/val.pkl'
-# ann_file_test = 'data/briareo/RGB/test.pkl'
+ann_file_train = 'data/briareo/RGB/train.pkl'
+ann_file_val = 'data/briareo/RGB/val.pkl'
+ann_file_test = 'data/briareo/RGB/test.pkl'
 
-ann_file_test = 'data/0_288.pkl'
-ann_file_val = 'data/0_346.pkl'
-ann_file_train = 'data/0_806.pkl'
+# ann_file_test = 'data/0_288.pkl'
+# ann_file_val = 'data/0_346.pkl'
+# ann_file_train = 'data/0_806.pkl'
 
 # path to save the training logs
 work_dir = './work_dirs/briareo/RGB/revision/fold0'
@@ -42,7 +42,7 @@ test_pipeline = [
 
 data = dict(
     videos_per_gpu=32,
-    # workers_per_gpu=2,
+    workers_per_gpu=2,
     workers_per_gpu=0,
     shuffle=True,
     test_dataloader=dict(videos_per_gpu=1),
@@ -90,9 +90,6 @@ model = dict(
 # todo: symlink a media/Data/enz/
 # optimizer
 optimizer = dict(type='Adam', lr=0.001, weight_decay=0.0001)
-# optimizer_config = dict(grad_clip=None)
-# optimizer = dict(type='SGD', lr=0.05, momentum=0.9, weight_decay=0.0003)  # this lr is used for 8 gpus
-# optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0003)  # this lr is used for 8 gpus
 optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 
 # learning policy

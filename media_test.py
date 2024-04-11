@@ -13,7 +13,7 @@ from sklearn.metrics import confusion_matrix
 import mmcv
 import torch
 from mmcv import Config
-import skelact  # noqa
+import source  # noqa
 from mmaction.apis import inference_recognizer, init_recognizer
 
 config_dir = 'configs/tscnn/tscnn_ntu60_xsub_joint.py'

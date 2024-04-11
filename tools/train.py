@@ -22,7 +22,7 @@ from mmaction.models import build_model
 from mmaction.utils import (collect_env, get_root_logger,
                             register_module_hooks, setup_multi_processes)
 
-import skelact  # noqa
+import source  # noqa
 
 
 def parse_args():

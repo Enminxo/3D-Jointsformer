@@ -6,80 +6,80 @@ import torch.nn.functional as F
 
 from mmaction.datasets.builder import PIPELINES
 
-# @PIPELINES.register_module()
-# class UniformSampleFrames:
-#     """Uniformly sample frames from the video.
-#
-#     To sample an n-frame clip from the video. UniformSampleFrames basically
-#     divide the video into n segments of equal length and randomly sample one
-#     frame from each segment. To make the testing results reproducible, a
-#     random seed is set during testing, to make the sampling results
-#     deterministic.
-#
-#     Required Keys:
-#
-#         - total_frames
-#         - start_index (optional)
-#
-#     Added Keys:
-#
-#         - frame_inds
-#         - frame_interval
-#         - num_clips
-#         - clip_len
-#
-#     Args:
-#         clip_len (int): Frames of each sampled output clip.
-#         num_clips (int): Number of clips to be sampled. Defaults to 1.
-#         test_mode (bool): Store True when building test or validation dataset.
-#             Defaults to False.
-#         seed (int): The random seed used during test time. Defaults to 255.
-#     """
-#
-#     def __init__(self,
-#                  clip_len: int,
-#                  num_clips: int = 1,
-#                  test_mode: bool = False,
-#                  seed: int = 255) -> None:
-#         self.clip_len = clip_len
-#         self.num_clips = num_clips
-#         self.test_mode = test_mode
-#         self.seed = seed
-#
-#     def _get_train_clips(self, num_frames: int, clip_len: int) -> np.ndarray:
-#         """Uniformly sample indices for training clips.
-#
-#         Args:
-#             num_frames (int): The number of frames.
-#             clip_len (int): The length of the clip.
-#
-#         Returns:
-#             np.ndarray: The sampled indices for training clips.
-#         """
-#         all_inds = []
-#         for clip_idx in range(self.num_clips):
-#             if num_frames < clip_len:
-#                 start = np.random.randint(0, num_frames)
-#                 inds = np.arange(start, start + clip_len)
-#             elif clip_len <= num_frames < 2 * clip_len:
-#                 basic = np.arange(clip_len)
-#                 inds = np.random.choice(
-#                     clip_len + 1, num_frames - clip_len, replace=False)
-#                 offset = np.zeros(clip_len + 1, dtype=np.int32)
-#                 offset[inds] = 1
-#                 offset = np.cumsum(offset)
-#                 inds = basic + offset[:-1]
-#             else:
-#                 bids = np.array(
-#                     [i * num_frames // clip_len for i in range(clip_len + 1)])
-#                 bsize = np.diff(bids)
-#                 bst = bids[:clip_len]
-#                 offset = np.random.randint(bsize)
-#                 inds = bst + offset
-#
-#             all_inds.append(inds)
-# 
-#         return np.concatenate(all_inds)
+@PIPELINES.register_module()
+class UniformSampleFrames:
+    """Uniformly sample frames from the video.
+
+    To sample an n-frame clip from the video. UniformSampleFrames basically
+    divide the video into n segments of equal length and randomly sample one
+    frame from each segment. To make the testing results reproducible, a
+    random seed is set during testing, to make the sampling results
+    deterministic.
+
+    Required Keys:
+
+        - total_frames
+        - start_index (optional)
+
+    Added Keys:
+
+        - frame_inds
+        - frame_interval
+        - num_clips
+        - clip_len
+
+    Args:
+        clip_len (int): Frames of each sampled output clip.
+        num_clips (int): Number of clips to be sampled. Defaults to 1.
+        test_mode (bool): Store True when building test or validation dataset.
+            Defaults to False.
+        seed (int): The random seed used during test time. Defaults to 255.
+    """
+
+    def __init__(self,
+                 clip_len: int,
+                 num_clips: int = 1,
+                 test_mode: bool = False,
+                 seed: int = 255) -> None:
+        self.clip_len = clip_len
+        self.num_clips = num_clips
+        self.test_mode = test_mode
+        self.seed = seed
+
+    def _get_train_clips(self, num_frames: int, clip_len: int) -> np.ndarray:
+        """Uniformly sample indices for training clips.
+
+        Args:
+            num_frames (int): The number of frames.
+            clip_len (int): The length of the clip.
+
+        Returns:
+            np.ndarray: The sampled indices for training clips.
+        """
+        all_inds = []
+        for clip_idx in range(self.num_clips):
+            if num_frames < clip_len:
+                start = np.random.randint(0, num_frames)
+                inds = np.arange(start, start + clip_len)
+            elif clip_len <= num_frames < 2 * clip_len:
+                basic = np.arange(clip_len)
+                inds = np.random.choice(
+                    clip_len + 1, num_frames - clip_len, replace=False)
+                offset = np.zeros(clip_len + 1, dtype=np.int32)
+                offset[inds] = 1
+                offset = np.cumsum(offset)
+                inds = basic + offset[:-1]
+            else:
+                bids = np.array(
+                    [i * num_frames // clip_len for i in range(clip_len + 1)])
+                bsize = np.diff(bids)
+                bst = bids[:clip_len]
+                offset = np.random.randint(bsize)
+                inds = bst + offset
+
+            all_inds.append(inds)
+
+        return np.concatenate(all_inds)
 
 @PIPELINES.register_module()
 class PoseRandomCrop:

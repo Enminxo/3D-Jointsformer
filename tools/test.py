@@ -20,7 +20,7 @@ from mmaction.datasets import build_dataloader, build_dataset
 from mmaction.models import build_model
 from mmaction.utils import (build_ddp, build_dp, default_device,
                             register_module_hooks, setup_multi_processes)
-import skelact  # noqa
+import source  # noqa
 from plot_results import plot_confusion_matrix
 from sklearn.metrics import confusion_matrix
 
