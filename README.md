@@ -1,42 +1,34 @@
-<<<<<<< HEAD
-# 3D-Jointsformer
+Real-Time Monocular Skeleton-Based Hand Gesture Recognition Using 3D-Jointsformer
 =======
-SkelAct
-=======
+<!-- 
+This repository contains PyTorch implementation for 3D-Jointsformer.
+Automatic hand gesture recognition in video sequences has widespread applications, ranging from home automation to sign language interpretation and clinical operations. The primary challenge lies in achieving real-time recognition while managing temporal dependencies that can impact performance. Existing methods employ 3D convolutional or Transformer-based architectures with hand skeleton estimation, but both have limitations. To address these challenges, a hybrid approach that combines 3D Convolutional Neural Networks (3D-CNNs) and Transformers is proposed. The method involves using a 3D-CNN to compute high-level semantic skeleton embeddings, capturing local spatial and temporal characteristics of hand gestures. A Transformer network with a self-attention mechanism is then employed to efficiently capture long-range temporal dependencies in the skeleton sequence. Evaluation of the Briareo and Multimodal Hand Gesture datasets resulted in accuracy scores of 95.49% and 97.25%, respectively. Notably, this approach achieves real-time performance using a standard CPU, distinguishing it from methods that require specialized GPUs. The hybrid approach’s real-time efficiency and high accuracy demonstrate its superiority over existing state-of-the-art methods. In summary, the hybrid 3D-CNN and Transformer approach effectively address real-time recognition challenges and efficient handling of temporal dependencies, outperforming existing methods in both accuracy and speed.
+-->
+This repository hosts our PyTorch implementation of 3D-Jointsformer, a novel approach for real-time hand gesture recognition in video sequences. Traditional methods struggle with managing temporal dependencies while maintaining real-time performance. To address this, we propose a hybrid approach combining 3D-CNNs and Transformers. Our method utilizes a 3D-CNN to compute high-level semantic skeleton embeddings, capturing local spatial and temporal characteristics. A Transformer network with self-attention then efficiently captures long-range temporal dependencies. Evaluation of the Briareo and Multimodal Hand Gesture datasets yielded accuracy scores of 95.49% and 97.25%. Importantly, our approach achieves real-time performance on standard CPUs, distinguishing it from GPU-dependent methods. The hybrid 3D-CNN and Transformer approach outperforms existing methods in both accuracy and speed, effectively addressing real-time recognition challenges.
 
-SkelAct is an open source repository which provides state-of-the-art skeleton-based action recognition models from Hikvision Research Institute. Currently 5 models from 4 papers have been reimplemented in PyTorch, namely [Two-Stream CNN](https://arxiv.org/abs/1704.07595) (ICMEW'17), [HCN](https://arxiv.org/abs/1804.06055) (IJCAI'18), [HCN-Baseline](https://arxiv.org/abs/2112.04178) (AAAI'22), [Ta-CNN](https://arxiv.org/abs/2112.04178) (AAAI'22) and [Dynamic GCN](https://arxiv.org/abs/2007.14690) (ACM MM'20).
 
-## Installation
-
-SkelAct is based on [MMAction2](https://github.com/open-mmlab/mmaction2/). Follow the instruction below to setup a valid Python environment.
-
-* Linux (CUDA)
+### Installation
 
 ```shell
-conda create -n skelact python=3.9 -y
-conda activate skelact
+conda create -n 3DJointsformer python=3.9 -y
+conda activate 3DJointsformer
 conda install pytorch=1.11.0 torchvision=0.12.0 cudatoolkit=11.3 -c pytorch -y
 pip install 'mmcv-full==1.5.0' -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.11.0/index.html
 pip install mmaction2  # tested mmaction2 v0.24.0
 ```
 
-* macOS (CPU only)
-
-```shell
-conda create -n skelact python=3.9 -y
-conda activate skelact
-conda install pytorch=1.12.0 torchvision=0.13.0 -c pytorch -y
-pip install 'mmcv-full==1.5.0'
-git clone --depth 1 --branch v0.24.0 https://github.com/open-mmlab/mmaction2.git
-cd mmaction2
-sed -i '' '/decord/d' requirements/build.txt  # remove decord from requirements
-CC=clang CXX=clang++ CFLAGS='-stdlib=libc++' pip install .
-```
-
-## Get Started
 
 ### Data Preparation
 
+The dataset (images) is downloaded from [GTI- Grupo Tratamiento de Imágenes](http://gti.ssr.upm.es/data/MultiModalHandGesture_dataset)
+* To run the script [**img_to_coord.py**](https://github.com/Enminxo/handgesture_2/blob/c0dd52be999e3dc7525cae5a77620fa0e59de40b/images_to_coordinates/img_to_coord.py) you should place the downloaded dataset in the folder [images_to_coordinates](https://github.com/Enminxo/handgesture_2/blob/6d639c08f6dbfec4b820d67f9e61916d04cb2e4a/images_to_coordinates)
+* transform the coordinates to .pkl file using [**my_gen_ntu_rgbd.py**](https://github.com/Enminxo/handgesture_2/blob/2831f468f56c986c19f3f183a93a1e1942d685a5/tools/data/my_gen__ntu_rgbd.py)
+----
+From this point onwards, we use the "dataset" to refer the hand joints coordinates in .pkl format.
+* **_media_test.py_**: script to run the real-time hand gesture recognition.
+  * Set the paths to the dataset and the trained weights,
+  * The script will open the webcam to inference the hand gesture in real time, so make sure this is available when you run the script
+  
 Use [gen_ntu_rgbd_raw.py](tools/data/my_gen_ntu_rgbd_raw.py) to preprocess the NTU RGB+D dataset. Put the dataset in `data/` with the following structure.
 
 ```
@@ -59,10 +51,10 @@ You can use the following command to train a model.
 ./tools/run.sh ${CONFIG_FILE} ${GPU_IDS} ${SEED}
 ```
 
-Example: train HCN model on the joint data of NTU RGB+D using 2 GPUs with seed 0.
+Example: train TSCNN model on the joint data of NTU RGB+D using 2 GPUs with seed 0.
 
 ```shell
-./tools/run.sh configs/hcn/hcn_ntu60_xsub_joint.py 0,1 0
+./tools/run.sh configs/tscnn/tscnn_ntu60_xsub_joint.py 0,1 0
 ```
 
 ### Test
@@ -73,96 +65,35 @@ You can use the following command to test a model.
 python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [optional arguments]
 ```
 
-Example: test HCN model on the joint data of NTU RGB+D.
+Example: test TSCNN model on the joint data of NTU RGB+D.
 
 ```shell
-python tools/test.py configs/hcn/hcn_ntu60_xsub_joint.py \
-    work_dirs/hcn_ntu60_xsub_joint/best_top1_acc_epoch_475.pth \
+python tools/test.py configs/tscnn/tscnn_ntu60_xsub_joint.py \
+    work_dirs/tscnn_ntu60_xsub_joint/best_top1_acc_epoch_475.pth \
     --eval top_k_accuracy --cfg-options "gpu_ids=[0]"
 ```
 
-## Models
-
-### FLOPs and Params
-
-Model | GFLOPs<sup>1</sup> | Params (M)
-------|--------|-----------
-Two-Stream CNN | 0.098 | 0.785
-HCN | 0.196 | 1.047
-HCN-Baseline | 0.196 | 0.538
-Ta-CNN | 0.147 | 0.532
-Dynamic GCN | 2.395 | 3.75
-
-<sup>1</sup> Calculated with [get_flops.py](tools/analysis/get_flops.py), which may differ from the numbers reported in the papers.
-
-### Performance
-
-All the following models are trained using 2 TITAN X Pascal GPUs. Note that for simplicity we do not strictly follow the details (e.g. data preprocessing) of the original implementations, which causes the slight accuracy difference.
-
-- NTU RGB+D XSub
-
-Model | Config | Our Acc (5 seeds<sup>2</sup>) | Our Acc (mean±std) | Paper Acc
-------|--------|-------------------------------|--------------------|----------
-Two-Stream CNN | [tscnn_ntu60_xsub_joint.py](configs/tscnn/tscnn_ntu60_xsub_joint.py) | 83.93, 83.78, 83.56, 84.04, 84.13 | 83.89±0.20 | 83.2
-HCN | [hcn_ntu60_xsub_joint.py](configs/hcn/hcn_ntu60_xsub_joint.py) | 86.69, 85.89, 86.17, 86.63, 87.09 | 86.49±0.42 | 86.5
-HCN-Baseline | [hcnb_ntu60_xsub_joint.py](configs/tacnn/hcnb_ntu60_xsub_joint.py) | 87.89, 87.26, 87.71, 87.72, 87.77 | 87.67±0.21 | 87.4
-Ta-CNN | [tacnn_ntu60_xsub_joint.py](configs/tacnn/tacnn_ntu60_xsub_joint.py) | 88.65, 88.53, 88.76, 88.49, 88.21 | 88.53±0.19 | 88.8
-Dynamic GCN | [dgcn_65e_ntu60_xsub_joint.py](configs/dgcn/dgcn_65e_ntu60_xsub_joint.py) | 88.49, 89.03, 88.87, 88.88, 89.23 | 88.90±0.24 | 89.2
-
-<sup>2</sup> Seed = {0, 1, 2, 3, 4}
-
-- NTU RGB+D XView
-
-Model | Config | Our Acc<sup>3</sup> | Paper Acc
-------|--------|---------------------|----------
-Two-Stream CNN | [tscnn_ntu60_xview_joint.py](configs/tscnn/tscnn_ntu60_xview_joint.py) | 90.23 | 89.3
-HCN | [hcn_ntu60_xview_joint.py](configs/hcn/hcn_ntu60_xview_joint.py) | 92.35 | 91.1
-Ta-CNN | [tacnn_ntu60_xview_joint.py](configs/tacnn/tacnn_ntu60_xview_joint.py) | 93.91 | -
-Dynamic GCN | [dgcn_65e_ntu60_xview_joint.py](configs/dgcn/dgcn_65e_ntu60_xview_joint.py) | 94.23 | -
-
-<sup>3</sup> Seed = 0
-
-## License
-
-This project is released under the [Apache 2.0 license](LICENSE).
-
-## Citation
-
-```BibTeX
-@inproceedings{li2017skeleton,
-  title={Skeleton-based Action Recognition with Convolutional Neural Networks},
-  author={Li, Chao and Zhong, Qiaoyong and Xie, Di and Pu, Shiliang},
-  booktitle={2017 IEEE International Conference on Multimedia \& Expo Workshops},
-  pages={597--600},
-  year={2017}
-}
-
-@inproceedings{li2018co-occurrence,
-  title={Co-occurrence Feature Learning from Skeleton Data for Action Recognition and Detection with Hierarchical Aggregation},
-  author={Li, Chao and Zhong, Qiaoyong and Xie, Di and Pu, Shiliang},
-  booktitle={Proceedings of the 27th International Joint Conference on Artificial Intelligence},
-  pages={786--792},
-  year={2018}
-}
-
-@inproceedings{ye2020dynamic,
-  title={Dynamic GCN: Context-enriched Topology Learning for Skeleton-based Action Recognition},
-  author={Ye, Fanfan and Pu, Shiliang and Zhong, Qiaoyong and Li, Chao and Xie, Di and Tang, Huiming},
-  booktitle={Proceedings of the 28th ACM International Conference on Multimedia},
-  pages={55--63},
-  year={2020}
-}
-
-@inproceedings{xu2022topology,
-  title={Topology-aware Convolutional Neural Network for Efficient Skeleton-based Action Recognition},
-  author={Xu, Kailin and Ye, Fanfan and Zhong, Qiaoyong and Xie, Di},
-  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
-  year={2022}
+### Bibtex
+If this project is useful for you, please consider citing our paper 
+```shell
+@Article{s23167066,
+AUTHOR = {Zhong, Enmin and del-Blanco, Carlos R. and Berjón, Daniel and Jaureguizar, Fernando and García, Narciso},
+TITLE = {Real-Time Monocular Skeleton-Based Hand Gesture Recognition Using 3D-Jointsformer},
+JOURNAL = {Sensors},
+VOLUME = {23},
+YEAR = {2023},
+NUMBER = {16},
+ARTICLE-NUMBER = {7066},
+URL = {https://www.mdpi.com/1424-8220/23/16/7066},
+PubMedID = {37631602},
+ISSN = {1424-8220},
+DOI = {10.3390/s23167066}
 }
 ```
 
-## Acknowledgement
+### Acknowledgements
+Our code is based on [SkelAct](https://github.com/hikvision-research/skelact),[MMAction2](https://github.com/open-mmlab/mmaction2/),[SlowFast](https://github.com/facebookresearch/SlowFast/tree/2090f2918ac1ce890fdacd8fda2e590a46d5c734) Sincere thanks to their wonderful works.
 
-SkelAct heavily depends on [MMAction2](https://github.com/open-mmlab/mmaction2/). We appreciate all contributors to the excellent framework.
+### License
 
->>>>>>> 3f8be66 (first commit)
+This project is released under the [Apache 2.0 license](LICENSE).
