@@ -19,17 +19,10 @@ pip install mmaction2  # tested mmaction2 v0.24.0
 
 
 ### Data Preparation
+In this work we have tested the proposed model on two datasets : the [Briareo](https://aimagelab.ing.unimore.it/imagelab/page.asp?IdPage=31) and [Multi-Modal Hand Gesture Dataset](http://gti.ssr.upm.es/data/MultiModalHandGesture_dataset) . The hand keypoints are obtained by [Mediapipe](https://developers.google.com/mediapipe/solutions), we have included code to generate these hand keypoints. 
+* You can use this script [**img_to_coord.py**](https://github.com/Enminxo/handgesture_2/blob/c0dd52be999e3dc7525cae5a77620fa0e59de40b/images_to_coordinates/img_to_coord.py) to generate hand keypoints from the images or videos. 
+* Save the coordinates into .pkl file using [**my_gen_ntu_rgbd.py**](https://github.com/Enminxo/handgesture_2/blob/2831f468f56c986c19f3f183a93a1e1942d685a5/tools/data/my_gen__ntu_rgbd.py)
 
-The dataset (images) is downloaded from [GTI- Grupo Tratamiento de Imágenes](http://gti.ssr.upm.es/data/MultiModalHandGesture_dataset)
-* To run the script [**img_to_coord.py**](https://github.com/Enminxo/handgesture_2/blob/c0dd52be999e3dc7525cae5a77620fa0e59de40b/images_to_coordinates/img_to_coord.py) you should place the downloaded dataset in the folder [images_to_coordinates](https://github.com/Enminxo/handgesture_2/blob/6d639c08f6dbfec4b820d67f9e61916d04cb2e4a/images_to_coordinates)
-* transform the coordinates to .pkl file using [**my_gen_ntu_rgbd.py**](https://github.com/Enminxo/handgesture_2/blob/2831f468f56c986c19f3f183a93a1e1942d685a5/tools/data/my_gen__ntu_rgbd.py)
-----
-From this point onwards, we use the "dataset" to refer the hand joints coordinates in .pkl format.
-* **_media_test.py_**: script to run the real-time hand gesture recognition.
-  * Set the paths to the dataset and the trained weights,
-  * The script will open the webcam to inference the hand gesture in real time, make sure this is available when you run the script.
-  
-Use [gen_ntu_rgbd_raw.py](tools/data/my_gen_ntu_rgbd_raw.py) to preprocess the dataset. Put the dataset in `data/` with the following structure.
 
 
 ### Train
@@ -63,7 +56,7 @@ python tools/test.py configs/transformer/jointsformer3d_briareo.py \
 ```
 
 ### Bibtex
-If this project is useful for you, please consider citing our paper 
+If this project is useful for you, please consider citing our paper.
 ```shell
 @Article{s23167066,
 AUTHOR = {Zhong, Enmin and del-Blanco, Carlos R. and Berjón, Daniel and Jaureguizar, Fernando and García, Narciso},
