@@ -27,21 +27,10 @@ The dataset (images) is downloaded from [GTI- Grupo Tratamiento de Imágenes](ht
 From this point onwards, we use the "dataset" to refer the hand joints coordinates in .pkl format.
 * **_media_test.py_**: script to run the real-time hand gesture recognition.
   * Set the paths to the dataset and the trained weights,
-  * The script will open the webcam to inference the hand gesture in real time, so make sure this is available when you run the script
+  * The script will open the webcam to inference the hand gesture in real time, make sure this is available when you run the script.
   
-Use [gen_ntu_rgbd_raw.py](tools/data/my_gen_ntu_rgbd_raw.py) to preprocess the NTU RGB+D dataset. Put the dataset in `data/` with the following structure.
+Use [gen_ntu_rgbd_raw.py](tools/data/my_gen_ntu_rgbd_raw.py) to preprocess the dataset. Put the dataset in `data/` with the following structure.
 
-```
-data/
-└── ntu
-    └── nturgb+d_skeletons_60_3d
-        ├── xsub
-        │   ├── train.pkl
-        │   └── val.pkl
-        └── xview
-            ├── train.pkl
-            └── val.pkl
-```
 
 ### Train
 
@@ -51,10 +40,10 @@ You can use the following command to train a model.
 ./tools/run.sh ${CONFIG_FILE} ${GPU_IDS} ${SEED}
 ```
 
-Example: train TSCNN model on the joint data of NTU RGB+D using 2 GPUs with seed 0.
+Example: train the model on the joint data of Briareo dataset using 2 GPUs with seed 0.
 
 ```shell
-./tools/run.sh configs/tscnn/tscnn_ntu60_xsub_joint.py 0,1 0
+./tools/run.sh configs/transformer/jointsformer3d_briareo.py 0,1 0
 ```
 
 ### Test
@@ -65,11 +54,11 @@ You can use the following command to test a model.
 python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [optional arguments]
 ```
 
-Example: test TSCNN model on the joint data of NTU RGB+D.
+Example: inference on the joint data of Briareo dataset.
 
 ```shell
-python tools/test.py configs/tscnn/tscnn_ntu60_xsub_joint.py \
-    work_dirs/tscnn_ntu60_xsub_joint/best_top1_acc_epoch_475.pth \
+python tools/test.py configs/transformer/jointsformer3d_briareo.py \
+    work_dirs/jointsformer3d/best_top1_acc_epoch_475.pth \
     --eval top_k_accuracy --cfg-options "gpu_ids=[0]"
 ```
 
@@ -92,7 +81,7 @@ DOI = {10.3390/s23167066}
 ```
 
 ### Acknowledgements
-Our code is based on [SkelAct](https://github.com/hikvision-research/skelact),[MMAction2](https://github.com/open-mmlab/mmaction2/),[SlowFast](https://github.com/facebookresearch/SlowFast/tree/2090f2918ac1ce890fdacd8fda2e590a46d5c734) Sincere thanks to their wonderful works.
+Our code is based on [SkelAct](https://github.com/hikvision-research/skelact) , [MMAction2](https://github.com/open-mmlab/mmaction2/) , [SlowFast](https://github.com/facebookresearch/SlowFast/tree/2090f2918ac1ce890fdacd8fda2e590a46d5c734) Sincere thanks to their wonderful works.
 
 ### License
 
