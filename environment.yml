@@ -106,4 +106,3 @@ dependencies:
     - torch==1.12.1
     - yapf==0.32.0
     - zipp==3.8.1
-prefix: /home/enz/anaconda3/envs/skelact
