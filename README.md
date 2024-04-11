@@ -7,7 +7,7 @@ Automatic hand gesture recognition in video sequences has widespread application
 This repository hosts our PyTorch implementation of 3D-Jointsformer, a novel approach for real-time hand gesture recognition in video sequences. Traditional methods struggle with managing temporal dependencies while maintaining real-time performance. To address this, we propose a hybrid approach combining 3D-CNNs and Transformers. Our method utilizes a 3D-CNN to compute high-level semantic skeleton embeddings, capturing local spatial and temporal characteristics. A Transformer network with self-attention then efficiently captures long-range temporal dependencies. Evaluation of the Briareo and Multimodal Hand Gesture datasets yielded accuracy scores of 95.49% and 97.25%. Importantly, our approach achieves real-time performance on standard CPUs, distinguishing it from GPU-dependent methods. The hybrid 3D-CNN and Transformer approach outperforms existing methods in both accuracy and speed, effectively addressing real-time recognition challenges.
 
 
-### Installation
+## Installation
 
 ```shell
 conda create -n 3DJointsformer python=3.9 -y
@@ -18,11 +18,11 @@ pip install mmaction2  # tested mmaction2 v0.24.0
 ```
 
 
-### Data Preparation
+## Data Preparation
 In this work we have tested the proposed model on two datasets : the [Briareo](https://aimagelab.ing.unimore.it/imagelab/page.asp?IdPage=31) and [Multi-Modal Hand Gesture Dataset](http://gti.ssr.upm.es/data/MultiModalHandGesture_dataset) . The hand keypoints are obtained by [Mediapipe](https://developers.google.com/mediapipe/solutions), we have also included code to generate these hand keypoints ( see data_preprocessing ). 
 
 
-### Train
+## Train
 
 You can use the following command to train a model.
 
@@ -36,7 +36,7 @@ Example: train the model on the joint data of Briareo dataset using 2 GPUs with 
 ./tools/run.sh configs/transformer/jointsformer3d_briareo.py 0,1 0
 ```
 
-### Test
+## Test
 
 You can use the following command to test a model.
 
@@ -52,7 +52,7 @@ python tools/test.py configs/transformer/jointsformer3d_briareo.py \
     --eval top_k_accuracy --cfg-options "gpu_ids=[0]"
 ```
 
-### Bibtex
+## Bibtex
 If this project is useful for you, please consider citing our paper.
 ```shell
 @Article{s23167066,
@@ -70,9 +70,9 @@ DOI = {10.3390/s23167066}
 }
 ```
 
-### Acknowledgements
+## Acknowledgements
 Our code is based on [SkelAct](https://github.com/hikvision-research/skelact) , [MMAction2](https://github.com/open-mmlab/mmaction2/) , [SlowFast](https://github.com/facebookresearch/SlowFast/tree/2090f2918ac1ce890fdacd8fda2e590a46d5c734) Sincere thanks to their wonderful works.
 
-### License
+## License
 
 This project is released under the [Apache 2.0 license](LICENSE).
