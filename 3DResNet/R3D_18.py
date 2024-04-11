@@ -1,22 +1,18 @@
 import torch.nn as nn
-from utils import train, validate
+from utils.utils import train, validate
 from dataGen import *
-from utils import save_model, save_plots, SaveBestModel
+from utils.utils import save_model, save_plots, SaveBestModel
 from torchvision.models.video import r3d_18, R3D_18_Weights
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 """video 3D RESNET 18 """
-briareo_rgb_train = '/home/enz/code/skelact/data/briareo/xsub/train.pkl'
-briareo_rgb_test = '/home/enz/code/skelact/data/briareo/xsub/test.pkl'
-briareo_rgb_val = '/home/enz/code/skelact/data/briareo/xsub/val.pkl'
+briareo_rgb_train = 'PATH/TO/train.pkl'
+briareo_rgb_test = 'PATH/TO/test.pkl'
+briareo_rgb_val = 'PATH/TO/val.pkl'
 
 """Load the dataset"""
-# path = 'data/ntu_prueba/nturgb+d_skeletons_60_3d/xsub/train.pkl'
-# test_path = 'data/ntu_prueba/nturgb+d_skeletons_60_3d/xsub/val.pkl'
-# train_data = CustomDataset(path, data_type='train')
-# val_data = CustomDataset(path, data_type='val')
-# test_data = CustomDataset(test_path, data_type='test')
+
 train_data = CustomDataset(pickle_path=briareo_rgb_train,
                            data_type='train',
                            centercrop=center_crop(clip_ratio=1),

@@ -21,7 +21,7 @@ from mmaction.models import build_model
 from mmaction.utils import (build_ddp, build_dp, default_device,
                             register_module_hooks, setup_multi_processes)
 import source  # noqa
-from plot_results import plot_confusion_matrix
+from utils.plot_results import plot_confusion_matrix
 from sklearn.metrics import confusion_matrix
 
 # TODO import test functions from mmcv and delete them from mmaction2
@@ -303,7 +303,7 @@ def main():
                       'bottom-up swipe', 'thumb', 'index', 'clockwise rotation', 'counterclockwise rotation']
     gti_labels = ['C', 'down', 'fist_moved', 'five', 'four', 'hang', 'heavy', 'index', 'L', 'ok', 'palm', 'palm_m',
                   'palm_u', 'three', 'two', 'up']
-    # todo: change the labels
+    # change the labels
     # plot_confusion_matrix(path=task_pth, cm=cm, classes=briareo_labels, title=args.title)
     # plot_confusion_matrix(path=task_pth, cm=cm, classes=gti_labels, title=args.title)
 
