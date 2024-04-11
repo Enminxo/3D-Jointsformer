@@ -1,4 +1,4 @@
-name: skelact
+name: 3DJointsformer
 channels:
   - pytorch
   - defaults
